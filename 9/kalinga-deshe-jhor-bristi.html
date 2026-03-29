@@ -239,15 +239,96 @@ body{
 <div class="success">
     🔓 অভিনন্দন! আপনি পরের সেটটি আনলক করেছেন!
 </div>
-
 <script>
-function selectOption(el){
-    document.querySelectorAll('.option').forEach(o=>{
-        o.classList.remove('selected');
+const quiz = [
+    {
+        q: "‘মুষলধারে’ শব্দের অর্থ কী?",
+        options: ["পেষণদণ্ড","গাদা","অত্যন্ত মোটা ধারায়","অত্যন্ত বেগে"],
+        answer: 2
+    },
+    {
+        q: "‘কলিঙ্গদেশে ঝড়-বৃষ্টি’ কোন কবিতা?",
+        options: ["কাব্য","গল্প","কবিতা","নাটক"],
+        answer: 2
+    }
+];
+
+let index = 0;
+let score = 0;
+let selected = null;
+
+/* LOAD QUESTION */
+function loadQuestion(){
+    let q = quiz[index];
+    document.getElementById("question").innerText = (index+1)+". "+q.q;
+
+    document.querySelectorAll(".option").forEach((el,i)=>{
+        el.innerText = q.options[i];
+        el.classList.remove("selected");
     });
-    el.classList.add('selected');
+
+    selected = null;
 }
+
+loadQuestion();
+
+/* SELECT OPTION */
+function selectOption(el,i){
+    document.querySelectorAll(".option").forEach(o=>o.classList.remove("selected"));
+    el.classList.add("selected");
+    selected = i;
+}
+
+/* NEXT QUESTION */
+function nextQuestion(){
+    if(selected === null){
+        alert("একটি অপশন বেছে নাও");
+        return;
+    }
+
+    if(selected === quiz[index].answer){
+        score++;
+    }
+
+    index++;
+
+    if(index < quiz.length){
+        loadQuestion();
+    }else{
+        showResult();
+    }
+}
+
+/* RESULT */
+function showResult(){
+    document.querySelector(".card").style.display = "none";
+    document.querySelector(".btn").style.display = "none";
+
+    let resultBox = document.getElementById("result");
+    resultBox.style.display = "block";
+    resultBox.innerHTML = "✔ প্রাপ্ত নম্বর: "+score+" / "+quiz.length;
+}
+
+/* TIMER */
+let time = 120; // 2 minutes
+
+let timer = setInterval(()=>{
+    let min = Math.floor(time/60);
+    let sec = time%60;
+
+    document.getElementById("timer").innerText =
+        (min<10?"0"+min:min)+":"+(sec<10?"0"+sec:sec);
+
+    time--;
+
+    if(time < 0){
+        clearInterval(timer);
+        showResult();
+    }
+},1000);
 </script>
+    
+
 
 </body>
   </html>
