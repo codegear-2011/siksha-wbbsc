@@ -184,151 +184,133 @@ body{
 
 <!-- NAV -->
 <div class="set-nav">
-    <div class="nav-btn">◀ আগের</div>
+    <div class="back">◀ আগের</div>
     <div class="nav-btn active">সেট ১ / ৫</div>
     <div class="nav-btn">পরের ▶</div>
 </div>
 
 <!-- QUESTION -->
-<div class="card">
-    <div class="question">
-        ১০. ‘মুষলধারে’ শব্দের অর্থ কী?
+        
+
+    <div class="quiz-box">
+        <div class="question-text" id="question">Loading...</div>
+        <div class="option-container" id="options">
+            <!-- অপশনগুলো JS দিয়ে এখানে আসবে -->
+        </div>
+        <button class="next-btn" id="next-btn">পরবর্তী প্রশ্ন</button>
     </div>
 
-    <div class="option" onclick="selectOption(this)">
-        <input type="radio" name="q">
-        পেষণদণ্ড
-    </div>
+    <script>
+        // কুইজ ডাটাবেস
+        const quizData = [
+            {
+                question: "আমাদের সৌরজগতের বৃহত্তম গ্রহ কোনটি?",
+                options: ["মঙ্গল", "বৃহস্পতি", "শনি", "শুক্র"],
+                correct: 1
+            },
+            {
+                question: "পদ্মা সেতু কোন নদীর ওপর নির্মিত?",
+                options: ["যমুনা", "মেঘনা", "পদ্মা", "ব্রহ্মপুত্র"],
+                correct: 2
+            },
+            {
+                question: "নিচের কোনটি কম্পিউটারের ইনপুট ডিভাইস?",
+                options: ["মনিটর", "মাউস", "প্রিন্টার", "স্পিকার"],
+                correct: 1
+            }
+        ];
 
-    <div class="option" onclick="selectOption(this)">
-        <input type="radio" name="q">
-        গাদা
-    </div>
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timeLeft = 15;
+        let timerInterval;
 
-    <div class="option" onclick="selectOption(this)">
-        <input type="radio" name="q">
-        অত্যন্ত মোটা ধারায়
-        <span class="correct-tag">✓ সঠিক</span>
-    </div>
+        const questionElement = document.getElementById("question");
+        const optionsContainer = document.getElementById("options");
+        const nextButton = document.getElementById("next-btn");
+        const timerDisplay = document.getElementById("time-left");
 
-    <div class="option" onclick="selectOption(this)">
-        <input type="radio" name="q">
-        অত্যন্ত বেগে
-    </div>
-</div>
+        // কুইজ শুরু করার ফাংশন
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            showQuestion();
+            startTimer();
+        }
 
-<!-- BUTTONS -->
-<div class="buttons">
-    <button class="btn">↺ রিসেট</button>
-    <button class="btn primary">✔ উত্তর যাচাই</button>
-</div>
+        function showQuestion() {
+            resetState();
+            let currentQuestion = quizData[currentQuestionIndex];
+            questionElement.innerText = (currentQuestionIndex + 1) + ". " + currentQuestion.question;
 
-<!-- RESULT -->
-<div class="result">
-    ✔ প্রাপ্ত নম্বর: ১০ / ১০
-</div>
+            currentQuestion.options.forEach((option, index) => {
+                const div = document.createElement("div");
+                div.innerText = option;
+                div.classList.add("option");
+                div.addEventListener("click", () => selectOption(div, index));
+                optionsContainer.appendChild(div);
+            });
+        }
 
-<div class="stars">
-    ⭐ ⭐ ⭐
-</div>
+        function resetState() {
+            nextButton.style.display = "none";
+            while (optionsContainer.firstChild) {
+                optionsContainer.removeChild(optionsContainer.firstChild);
+            }
+        }
 
-<div class="big">
-    ( অসাধারণ! )
-</div>
+        function selectOption(element, index) {
+            // আগের সিলেক্ট করা অপশন রিমুভ করা
+            const allOptions = document.querySelectorAll(".option");
+            allOptions.forEach(opt => opt.classList.remove("selected"));
 
-<div class="success">
-    🔓 অভিনন্দন! আপনি পরের সেটটি আনলক করেছেন!
-</div>
-<script>
-const quiz = [
-    {
-        q: "‘মুষলধারে’ শব্দের অর্থ কী?",
-        options: ["পেষণদণ্ড","গাদা","অত্যন্ত মোটা ধারায়","অত্যন্ত বেগে"],
-        answer: 2
-    },
-    {
-        q: "‘কলিঙ্গদেশে ঝড়-বৃষ্টি’ কোন কবিতা?",
-        options: ["কাব্য","গল্প","কবিতা","নাটক"],
-        answer: 2
-    }
-];
+            element.classList.add("selected");
+            nextButton.style.display = "block";
+            
+            // স্কোর আপডেট (যদি সঠিক উত্তর হয়)
+            if (index === quizData[currentQuestionIndex].correct) {
+                score++;
+            }
+        }
 
-let index = 0;
-let score = 0;
-let selected = null;
+        nextButton.addEventListener("click", () => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                showQuestion();
+                resetTimer();
+            } else {
+                showResult();
+            }
+        });
 
-/* LOAD QUESTION */
-function loadQuestion(){
-    let q = quiz[index];
-    document.getElementById("question").innerText = (index+1)+". "+q.q;
+        function showResult() {
+            resetState();
+            questionElement.innerText = "কুইজ শেষ!";
+            optionsContainer.innerHTML = `<h3>আপনার স্কোর: ${score} / ${quizData.length}</h3>`;
+            clearInterval(timerInterval);
+        }
 
-    document.querySelectorAll(".option").forEach((el,i)=>{
-        el.innerText = q.options[i];
-        el.classList.remove("selected");
-    });
+        // টাইমার ফাংশন
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    showResult();
+                }
+            }, 1000);
+        }
 
-    selected = null;
-}
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timeLeft = 15;
+            timerDisplay.innerText = timeLeft;
+            startTimer();
+        }
 
-loadQuestion();
-
-/* SELECT OPTION */
-function selectOption(el,i){
-    document.querySelectorAll(".option").forEach(o=>o.classList.remove("selected"));
-    el.classList.add("selected");
-    selected = i;
-}
-
-/* NEXT QUESTION */
-function nextQuestion(){
-    if(selected === null){
-        alert("একটি অপশন বেছে নাও");
-        return;
-    }
-
-    if(selected === quiz[index].answer){
-        score++;
-    }
-
-    index++;
-
-    if(index < quiz.length){
-        loadQuestion();
-    }else{
-        showResult();
-    }
-}
-
-/* RESULT */
-function showResult(){
-    document.querySelector(".card").style.display = "none";
-    document.querySelector(".btn").style.display = "none";
-
-    let resultBox = document.getElementById("result");
-    resultBox.style.display = "block";
-    resultBox.innerHTML = "✔ প্রাপ্ত নম্বর: "+score+" / "+quiz.length;
-}
-
-/* TIMER */
-let time = 120; // 2 minutes
-
-let timer = setInterval(()=>{
-    let min = Math.floor(time/60);
-    let sec = time%60;
-
-    document.getElementById("timer").innerText =
-        (min<10?"0"+min:min)+":"+(sec<10?"0"+sec:sec);
-
-    time--;
-
-    if(time < 0){
-        clearInterval(timer);
-        showResult();
-    }
-},1000);
-</script>
-    
-
-
+        // কুইজ শুরু করা যাক
+        startQuiz();
+    </script>
 </body>
-  </html>
+    </html>
