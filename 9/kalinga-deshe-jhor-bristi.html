@@ -407,12 +407,51 @@ body{
         });
 
         function showResult() {
-            resetState();
-            questionElement.innerText = "কুইজ শেষ!";
-            optionsContainer.innerHTML = `<h3>আপনার স্কোর: ${score} / ${quizData.length}</h3>`;
-            clearInterval(timerInterval);
-        }
+    resetState();
+    clearInterval(timerInterval);
 
+    // স্কোরের ওপর ভিত্তি করে স্টার এবং মেসেজ নির্ধারণ
+    let stars = "";
+    let message = "";
+    let percentage = (score / quizData.length) * 100;
+
+    if (percentage === 100) {
+        stars = "⭐⭐⭐";
+        message = "অসাধারণ! আপনি সব প্রশ্নের সঠিক উত্তর দিয়েছেন।";
+    } else if (percentage >= 60) {
+        stars = "⭐⭐";
+        message = "খুব ভালো! আরও একটু চেষ্টা করলে আপনি পূর্ণ নম্বর পাবেন।";
+    } else {
+        stars = "⭐";
+        message = "আরও অনুশীলন প্রয়োজন। আবার চেষ্টা করুন!";
+    }
+
+    // রেজাল্ট কার্ডের ডিজাইন
+    questionElement.innerHTML = `<div class="big">কুইজ সম্পন্ন!</div>`;
+    
+    optionsContainer.innerHTML = `
+        <div class="result">
+            <div class="stars">${stars}</div>
+            <h2 style="margin: 10px 0;">আপনার স্কোর</h2>
+            <div style="font-size: 40px; font-weight: bold; color: #2d6cdf;">
+                ${score} <span style="font-size: 20px; color: #666;">/ ${quizData.length}</span>
+            </div>
+            <p style="margin-top: 15px; color: #555; line-height: 1.5;">${message}</p>
+        </div>
+        
+        <div class="success">
+            সঠিক উত্তর দিয়েছেন: <b>${score}টি</b> <br>
+            ভুল উত্তর দিয়েছেন: <b>${quizData.length - score}টি</b>
+        </div>
+
+        <button class="next-btn" style="display: block;" onclick="location.reload()">
+            আবার শুরু করুন
+        </button>
+    `;
+
+    // নেক্সট বাটন লুকিয়ে ফেলা (যদি থাকে)
+    if(nextButton) nextButton.style.display = "none";
+        }
         // টাইমার ফাংশন
         function startTimer() {
             timerInterval = setInterval(() => {
