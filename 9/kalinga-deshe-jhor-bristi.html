@@ -413,10 +413,10 @@ body{
     let stars = "";
     let message = "";
     let percentage = (score / quizData.length) * 100;
-
-    if (percentage === 100) {
+   
+    if (percentage === 90) {
         stars = "⭐⭐⭐";
-        message = "অসাধারণ! আপনি সব প্রশ্নের সঠিক উত্তর দিয়েছেন।";
+        message = "অসাধারণ! আপনি প্রায় সব প্রশ্নের সঠিক উত্তর দিয়েছেন।";
     } else if (percentage >= 60) {
         stars = "⭐⭐";
         message = "খুব ভালো! আরও একটু চেষ্টা করলে আপনি পূর্ণ নম্বর পাবেন।";
