@@ -180,13 +180,63 @@ body{
     cursor: pointer;
     display: none; /* শুরুতে লুকানো থাকবে */
     }
+    .quiz-progress-wrapper {
+    width: 90%;
+    margin: 15px auto;
+    font-family: 'Hind Siliguri', sans-serif;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.progress-track {
+    width: 100%;
+    height: 12px;
+    background-color: #e0e0e0;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.progress-fill {
+    width: 10%; /* এটি JS দিয়ে আপডেট হবে */
+    height: 100%;
+    background: linear-gradient(90deg, #00dbde 0%, #fc00ff 100%);
+    border-radius: 20px;
+    transition: width 0.6s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+    position: relative;
+    /* গ্লোয়িং এনিমেশন */
+    animation: pulse-glow 2s infinite;
+}
+
+/* প্রগ্রেস বার গ্লো অ্যানিমেশন */
+@keyframes pulse-glow {
+    0% { box-shadow: 0 0 5px rgba(0, 219, 222, 0.5); }
+    50% { box-shadow: 0 0 15px rgba(252, 0, 255, 0.8); }
+    100% { box-shadow: 0 0 5px rgba(0, 219, 222, 0.5); }
+}
+
+/* কার্ড আসার সময় স্লাইড এনিমেশন */
+.card {
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+    }
 </style>
 </head>
 
 <body>
 
 <!-- HEADER -->
-<div class="header">
 
     <div class="timer" id="time-left">⏱ 00:15</div>
 
@@ -199,7 +249,15 @@ body{
     <div class="back" onclick="location.href='/9/bengali-chapter-select.html';" style="cursor: pointer;">◀ আগের</div>
     
 </div>
-
+<div class="quiz-progress-wrapper">
+    <div class="progress-info">
+        <span id="progress-text">প্রশ্ন: ১/১০</span>
+        <span id="progress-percent">১০%</span>
+    </div>
+    <div class="progress-track">
+        <div class="progress-fill" id="progress-bar"></div>
+    </div>
+</div>
 <!-- QUESTION -->
         <div class="card">
     <div class="question" id="question">Loading...</div>
@@ -474,6 +532,24 @@ quizData.forEach((q, i) => {
 
         // কুইজ শুরু করা যাক
         startQuiz();
+
+        function updateProgress(currentStep, totalSteps) {
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('progress-text');
+    const progressPercent = document.getElementById('progress-percent');
+    
+    const percentage = Math.round((currentStep / totalSteps) * 100);
+    
+    // বার আপডেট
+    progressBar.style.width = percentage + "%";
+    
+    // টেক্সট আপডেট
+    progressText.innerText = `প্রশ্ন: ${currentStep}/${totalSteps}`;
+    progressPercent.innerText = percentage + "%";
+}
+
+// উদাহরণ হিসেবে ২ নম্বর প্রশ্নে যাওয়ার জন্য কল করুন:
+// updateProgress(2, 10);
     </script>
 </body>
     </html>
