@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notice Board</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body {
+    font-family: "Noto Sans Bengali", sans-serif;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+.animate-fadeIn {
+    animation: fadeIn 0.3s ease;
+}
+</style>
+
+</head>
+
+<body class="min-h-screen flex items-center justify-center"
+      style="background: linear-gradient(135deg, #0f2a2f, #2e5c63);">
+
+<!-- Main Notice Board -->
+<div class="w-full max-w-3xl bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 p-6">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-2xl md:text-3xl font-bold text-white text-center">Notice Board</h1>
+        <span class="text-sm text-gray-300">Mock Test Updates</span>
+    </div>
+
+    <!-- Notices -->
+    <div class="space-y-4">
+
+        <!-- Notice 1 -->
+        <div onclick="openModal('নতুন মক টেস্ট', 'এই মক টেস্টে ২৫টি নতুন প্রশ্ন যুক্ত হয়েছে। প্রতিটি প্রশ্ন ভালোভাবে পড়ে উত্তর দাও এবং নিজের প্রস্তুতি যাচাই করো।')"
+             class="bg-white/10 border border-white/20 rounded-xl p-4 hover:bg-white/20 transition cursor-pointer">
+            <div class="flex justify-between">
+                <h2 class="text-lg font-semibold text-white">📝 নতুন মক টেস্ট</h2>
+                <span class="text-xs text-gray-300">আজ</span>
+            </div>
+            <p class="text-gray-200 mt-2 text-sm">
+                নতুন প্রশ্ন যুক্ত হয়েছে...
+            </p>
+        </div>
+
+        <!-- Notice 2 -->
+        <div onclick="openModal('টাইমার আপডেট', 'এখন প্রতিটি প্রশ্নের জন্য নির্দিষ্ট সময় দেওয়া হয়েছে। সময় শেষ হলে স্বয়ংক্রিয়ভাবে পরবর্তী প্রশ্নে চলে যাবে।')"
+             class="bg-white/10 border border-white/20 rounded-xl p-4 hover:bg-white/20 transition cursor-pointer">
+            <div class="flex justify-between">
+                <h2 class="text-lg font-semibold text-white">⏱️ টাইমার আপডেট</h2>
+                <span class="text-xs text-gray-300">গতকাল</span>
+            </div>
+            <p class="text-gray-200 mt-2 text-sm">
+                প্রতি প্রশ্নে এখন নির্দিষ্ট সময় থাকবে...
+            </p>
+        </div>
+
+        <!-- Notice 3 -->
+        <div onclick="openModal('গুরুত্বপূর্ণ নিয়ম', 'টেস্ট চলাকালীন পেজ রিফ্রেশ করলে আপনার সব ডেটা হারিয়ে যাবে। তাই সাবধান থাকুন এবং সম্পূর্ণ টেস্ট শেষ করুন।')"
+             class="bg-white/10 border border-white/20 rounded-xl p-4 hover:bg-white/20 transition cursor-pointer">
+            <div class="flex justify-between">
+                <h2 class="text-lg font-semibold text-white">⚠️ নিয়ম</h2>
+                <span class="text-xs text-gray-300">গুরুত্বপূর্ণ</span>
+            </div>
+            <p class="text-gray-200 mt-2 text-sm">
+                টেস্ট চলাকালীন পেজ রিফ্রেশ করো না...
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Button -->
+    <div class="mt-6 text-center">
+        <button onclick="location.href='index.html';"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl shadow-lg transition">
+            🔙 ফিরে যাও
+        </button>
+    </div>
+
+</div>
+
+<!-- Modal -->
+<div id="modal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50">
+    
+    <div class="bg-white rounded-xl p-6 max-w-md w-[90%] text-center relative animate-fadeIn">
+        
+        <h2 id="modalTitle" class="text-xl font-bold mb-3"></h2>
+        <p id="modalDesc" class="text-gray-700 text-sm"></p>
+
+        <button onclick="closeModal()" 
+            class="mt-5 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+            বন্ধ করো
+        </button>
+
+    </div>
+
+</div>
+
+<!-- Script -->
+<script>
+function openModal(title, desc) {
+    document.getElementById("modalTitle").innerText = title;
+    document.getElementById("modalDesc").innerText = desc;
+    document.getElementById("modal").classList.remove("hidden");
+    document.getElementById("modal").classList.add("flex");
+}
+
+function closeModal() {
+    document.getElementById("modal").classList.add("hidden");
+}
+</script>
+
+</body>
+              </Board
