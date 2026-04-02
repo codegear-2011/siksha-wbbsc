@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dhibar Brittanta-siksha wb</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Noto Sans Bengali", sans-serif;
+}
+
+body{
+    background:#e9ecef;
+}
+
+/* HEADER */
+.header{
+    background: linear-gradient(135deg,#0f2a2f,#355c66);
+    color:white;
+    padding:25px 15px;
+    border-radius:0 0 20px 20px;
+    position:relative;
+    text-align:center;
+}
+
+.back{
+    position:absolute;
+    left:10px;
+    top:15px;
+    border:1px solid rgba(255,255,255,0.5);
+    padding:8px 15px;
+    border-radius:20px;
+}
+
+.timer{
+    position:absolute;
+    right:10px;
+    top:15px;
+    background:orange;
+    padding:8px 15px;
+    border-radius:20px;
+    font-weight:bold;
+}
+
+.header h2{
+    font-size:26px;
+    margin-top:20px;
+}
+
+.header p{
+    color:#ffd54f;
+}
+
+/* SET NAV */
+.set-nav{
+    display:flex;
+    justify-content:space-between;
+    padding:15px;
+}
+
+.nav-btn{
+    padding:10px 20px;
+    border-radius:20px;
+    border:2px solid #ccc;
+}
+
+.active{
+    background:#2d4f7c;
+    color:white;
+    border:none;
+}
+
+/* QUESTION CARD */
+.card{
+    background:white;
+    margin:15px;
+    padding:20px;
+    border-radius:20px;
+    border-left:5px solid #3a7bd5;
+}
+
+.question{
+    font-size:18px;
+    margin-bottom:15px;
+}
+
+/* OPTIONS */
+.option{
+    background:#f1f3f5;
+    padding:12px;
+    border-radius:12px;
+    margin:10px 0;
+    display:flex;
+    align-items:center;
+    cursor:pointer;
+    border:2px solid transparent;
+}
+
+.option input{
+    margin-right:10px;
+}
+
+.option.selected{
+    border:2px solid #3a7bd5;
+    background:#e6f0ff;
+}
+
+/* CORRECT TAG */
+.correct-tag{
+    background:#28a745;
+    color:white;
+    padding:5px 10px;
+    border-radius:15px;
+    margin-left:auto;
+    font-size:12px;
+}
+
+/* BUTTONS */
+.buttons{
+    display:flex;
+    justify-content:space-around;
+    margin:20px;
+}
+
+.btn{
+    padding:12px 20px;
+    border-radius:25px;
+    border:2px solid #2d6cdf;
+    background:white;
+    cursor:pointer;
+}
+
+.btn.primary{
+    background:#2d6cdf;
+    color:white;
+    border:none;
+}
+
+/* RESULT */
+.result{
+    margin:15px;
+    padding:15px;
+    border-radius:15px;
+    border:2px dashed #7bd3a7;
+    background:#e8f7ef;
+    text-align:center;
+}
+
+.stars{
+    text-align:center;
+    font-size:30px;
+    margin:10px 0;
+}
+
+.big{
+    text-align:center;
+    font-size:28px;
+}
+
+.success{
+    background:#d9f3f0;
+    margin:15px;
+    padding:15px;
+    border-radius:15px;
+    text-align:center;
+}
+.next-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    background: #355c66;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    display: none; /* শুরুতে লুকানো থাকবে */
+    }
+    
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="container">
+
+    <!-- Header -->
+    <div class="header">
+        <div class="timer" id="time-left">⏱ 00:15</div>
+        <h2>২. ধীবর-বৃত্তান্ত</h2>
+        <H4>ক্লাস ৯</H4>
+        <p>siksha wb মক টেস্ট</p>
+    </div>
+  
+    <div class="divider"></div>
+<!-- NAV -->
+<div class="set-nav">
+    <div class="back" onclick="location.href='/9/bengali-chapter-select.html';" style="cursor: pointer;">◀ আগের</div>
+</div>
+<!-- QUESTION -->
+        <div class="card">
+    <div class="question" id="question">Loading...</div>
+    
+    <!-- এখানে ক্লাস তুলে দিয়ে শুধু ID রাখুন -->
+    <div id="options">
+        <!-- JS দিয়ে অপশনগুলো এখানে লোড হবে -->
+    </div>
+    
+    <button class="next-btn" id="next-btn">পরবর্তী প্রশ্ন</button>
+        </div>
+
+    <script>
+        // কুইজ ডাটাবেস
+        const quizData = [
+    {
+        question: "‘ধীবর বৃত্তান্ত’ নাটকটির রচয়িতা হলেন —",
+        options: ["বাল্মীকি", "কাশীরাম দাস", "কালিদাস", "জয়দেব"],
+        correct: 2
+    },
+    {
+        question: "পাঠ্য ‘ধীবর বৃত্তান্ত’ সাহিত্য সংরূপের দিক থেকে এটি —",
+        options: ["নাটিকা", "গল্প", "প্রবন্ধ", "উপন্যাস"],
+        correct: 0
+    },
+    {
+        question: "কালিদাস যে রাজার সভাকবি ছিলেন তিনি হলেন —",
+        options: ["শশাঙ্ক", "হর্ষবর্ধন", "দ্বিতীয় চন্দ্রগুপ্ত", "লক্ষণ সেন"],
+        correct: 2
+    },
+    {
+        question: "শকুন্তলার পিতার নাম কী?",
+        options: ["মহর্ষি দুর্বাসা", "মহর্ষি বিশ্বামিত্র", "মহর্ষি গৌতম", "মহর্ষি কণ্ব"],
+        correct: 1
+    },
+    {
+        question: "শকুন্তলার পালক পিতার নাম কী?",
+        options: ["মহর্ষি দুর্বাসা", "মহর্ষি বিশ্বামিত্র", "মহর্ষি গৌতম", "মহর্ষি কণ্ব"],
+        correct: 3
+    },
+    {
+        question: "শকুন্তলার দুই সখীর নাম কী?",
+        options: ["জয়া - বিজয়া", "ডাকিনী - যোগিনী", "অনসূয়া - প্রীয়ংবদা", "অরুন্ধতী - চিত্রাঙ্গদা"],
+        correct: 2
+    },
+    {
+        question: "শকুন্তলা থাকতেন —",
+        options: ["দুর্বাসা মুনির আশ্রমে", "কণ্ব মুনির তপোবনে", "বিশ্বামিত্র মুনির তপোবনে", "বাল্মীকি মুনির তপোবনে"],
+        correct: 1
+    },
+    {
+        question: "শকুন্তলার স্বামীর নাম কী?",
+        options: ["রাজা দশরথ", "রাজা দুষ্মন্ত", "রাম", "কৃষ্ণ"],
+        correct: 1
+    },
+    {
+        question: "শকুন্তলার আংটি হারিয়ে যায় —",
+        options: ["স্নানের সময়", "অঞ্জলি দেবার সময়", "ফুল তোলার সময়", "বস্ত্র পরিধানের সময়"],
+        correct: 1
+    },
+    {
+        question: "শকুন্তলার আংটি টি কে পেয়েছিল?",
+        options: ["কুমোর", "ধীবর", "মালি", "পুরোহিত"],
+        correct: 1
+    },
+    {
+        question: "দুই রক্ষীর নাম কী?",
+        options: ["জয় - বিজয়", "জানুক - সূচক", "অমল - বিমল", "শুভ - নিশুভ"],
+        correct: 1
+    },
+    {
+        question: "“শুনুন মহাশয়, এরকম বলবেন না।” — এই উক্তিটির বক্তা কে?",
+        options: ["মহারাজা", "রাজ্যশ্যালক", "পুরুষ (ধীবর)", "প্রথম রক্ষী"],
+        correct: 2
+    },
+    {
+        question: "ধীবর জানায় আংটিটি সে —",
+        options: ["কুড়িয়ে পেয়েছে", "মাছের পেট থেকে পেয়েছে", "চুরি করেছে", "পুরস্কার পেয়েছে"],
+        correct: 1
+    },
+    {
+        question: "দুই রক্ষী ধীবর কে বলেছিল —",
+        options: ["জোচ্চোর", "পাপী", "গাঁটকাটা", "শয়তান"],
+        correct: 2
+    },
+    {
+        question: "রাজ্যের আইন অনুযায়ী মৃত্যুদণ্ডের আগে আসামীকে —",
+        options: ["ফুলের মালা পরানো হয়", "কাঁটার মুকুট পরানো হয়", "ক্রুশবিদ্ধ করা হয়", "কোমরে দড়ি বেঁধে ঘোরানো হয়"],
+        correct: 0
+    },
+    {
+        question: "আংটির বিনিময়ে রাজা ধীবর কে কী দেন?",
+        options: ["স্বর্ণমুদ্রা দেয়", "মণিমানিক্য দেয়", "শাস্তি দেয়", "আংটির সমমূল্যের অর্থ দেয়"],
+        correct: 3
+    },
+    {
+        question: "অঙ্গুরীয় দেখে রাজার —",
+        options: ["পূর্বের কথা মনে পড়েছিল", "ধীবরকে চোর সাব্যস্ত করেছিল", "নির্বিকার ছিল", "সবকিছু ভুলে গিয়েছিলেন"],
+        correct: 0
+    }
+];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timeLeft = 120;
+        let timerInterval;
+        let userAnswers = [];
+        const questionElement = document.getElementById("question");
+        const optionsContainer = document.getElementById("options");
+        const nextButton = document.getElementById("next-btn");
+        const timerDisplay = document.getElementById("time-left");
+
+        // কুইজ শুরু করার ফাংশন
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            showQuestion();
+            startTimer();
+        }
+
+        function showQuestion() {
+            resetState();
+            let currentQuestion = quizData[currentQuestionIndex];
+            questionElement.innerText = (currentQuestionIndex + 1) + ". " + currentQuestion.question;
+
+            currentQuestion.options.forEach((option, index) => {
+                const div = document.createElement("div");
+                div.innerText = option;
+                div.classList.add("option");
+                div.addEventListener("click", () => selectOption(div, index));
+                optionsContainer.appendChild(div);
+            });
+        }
+
+        function resetState() {
+            nextButton.style.display = "none";
+            while (optionsContainer.firstChild) {
+                optionsContainer.removeChild(optionsContainer.firstChild);
+            }
+        }
+        function selectOption(element, index) {
+    const allOptions = document.querySelectorAll(".option");
+    allOptions.forEach(opt => opt.classList.remove("selected"));
+
+    element.classList.add("selected");
+    nextButton.style.display = "block";
+
+    // শুধু answer store করো
+    userAnswers[currentQuestionIndex] = index;
+        }
+        
+        nextButton.addEventListener("click", () => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                showQuestion();
+                resetTimer();
+            } else {
+                showResult();
+            }
+        });
+
+        function showResult() {
+    resetState();
+    clearInterval(timerInterval);
+    score = 0;
+
+quizData.forEach((q, i) => {
+    if (userAnswers[i] === q.correct) {
+        score++;
+    }
+});
+    // স্কোরের ওপর ভিত্তি করে স্টার এবং মেসেজ নির্ধারণ
+    let stars = "";
+    let message = "";
+    let percentage = (score / quizData.length) * 100;
+   
+    if (percentage === 100) {
+        stars = "⭐⭐⭐";
+        message = "অসাধারণ! আপনি প্রায় সব প্রশ্নের সঠিক উত্তর দিয়েছেন।";
+    } else if (percentage >= 60) {
+        stars = "⭐⭐";
+        message = "খুব ভালো! আরও একটু চেষ্টা করলে আপনি পূর্ণ নম্বর পাবেন।";
+    } else {
+        stars = "⭐";
+        message = "আরও অনুশীলন প্রয়োজন। আবার চেষ্টা করুন!";
+    }
+
+    // রেজাল্ট কার্ডের ডিজাইন
+    questionElement.innerHTML = `<div class="big">কুইজ সম্পন্ন!</div>`;
+    
+    optionsContainer.innerHTML = `
+        <div class="result">
+            <div class="stars">${stars}</div>
+            <h2 style="margin: 10px 0;">আপনার স্কোর</h2>
+            <div style="font-size: 40px; font-weight: bold; color: #2d6cdf;">
+                ${score} <span style="font-size: 20px; color: #666;">/ ${quizData.length}</span>
+            </div>
+            <p style="margin-top: 15px; color: #555; line-height: 1.5;">${message}</p>
+        </div>
+        
+        <div class="success">
+            সঠিক উত্তর দিয়েছেন: <b>${score}টি</b> <br>
+            ভুল উত্তর দিয়েছেন: <b>${quizData.length - score}টি</b>
+        </div>
+
+        <button class="next-btn" style="display: block;" onclick="location.reload()">
+            আবার শুরু করুন
+        </button>
+    `;
+
+    // নেক্সট বাটন লুকিয়ে ফেলা (যদি থাকে)
+    if(nextButton) nextButton.style.display = "none";
+        }
+        // টাইমার ফাংশন
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    showResult();
+                }
+            }, 1000);
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timeLeft = 120;
+            timerDisplay.innerText = timeLeft;
+            startTimer();
+        }
+
+        // কুইজ শুরু করা যাক
+        startQuiz();
+
+        
+    </script>
+</body>
+    </html>
