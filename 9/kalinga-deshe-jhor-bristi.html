@@ -346,7 +346,7 @@ body{
         let score = 0;
         let timeLeft = 120;
         let timerInterval;
-
+        let userAnswers = [];
         const questionElement = document.getElementById("question");
         const optionsContainer = document.getElementById("options");
         const nextButton = document.getElementById("next-btn");
@@ -380,21 +380,17 @@ body{
                 optionsContainer.removeChild(optionsContainer.firstChild);
             }
         }
-
         function selectOption(element, index) {
-            // আগের সিলেক্ট করা অপশন রিমুভ করা
-            const allOptions = document.querySelectorAll(".option");
-            allOptions.forEach(opt => opt.classList.remove("selected"));
+    const allOptions = document.querySelectorAll(".option");
+    allOptions.forEach(opt => opt.classList.remove("selected"));
 
-            element.classList.add("selected");
-            nextButton.style.display = "block";
-            
-            // স্কোর আপডেট (যদি সঠিক উত্তর হয়)
-            if (index === quizData[currentQuestionIndex].correct) {
-                score++;
-            }
+    element.classList.add("selected");
+    nextButton.style.display = "block";
+
+    // শুধু answer store করো
+    userAnswers[currentQuestionIndex] = index;
         }
-
+        
         nextButton.addEventListener("click", () => {
             currentQuestionIndex++;
             if (currentQuestionIndex < quizData.length) {
@@ -408,7 +404,13 @@ body{
         function showResult() {
     resetState();
     clearInterval(timerInterval);
+    score = 0;
 
+quizData.forEach((q, i) => {
+    if (userAnswers[i] === q.correct) {
+        score++;
+    }
+});
     // স্কোরের ওপর ভিত্তি করে স্টার এবং মেসেজ নির্ধারণ
     let stars = "";
     let message = "";
