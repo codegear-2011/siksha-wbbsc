@@ -1,0 +1,6 @@
+{
+  "name": "Siksha WB Mock Test",
+  "description": "West Bengal board chapter-wise quiz and mock test app with hidden admin panel",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
