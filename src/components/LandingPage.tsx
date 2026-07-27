@@ -21,7 +21,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStartQuiz }) => {
     {
       num: '১',
       title: 'কুইজ শুরু করুন',
-      desc: '"কুইজ শুরু করি" বাটনে চাপ দিয়ে সরাসরি ক্লাস নির্বাচন পেজে যান।',
+      desc: ' ক্লাস নির্বাচন করুন',
       icon: Play,
       color: 'bg-amber-100 text-amber-800 border-amber-300'
     },
@@ -60,11 +60,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStartQuiz }) => {
     {
       q: 'পরীক্ষার শেষে উত্তর ও ব্যাখ্যা কীভাবে দেখতে পাব?',
       a: 'মক টেস্ট জমা দেওয়া মাত্রই আপনার স্কোরকার্ডের সাথে প্রতিটি ভুল বা সঠিক উত্তরের পাশে সঠিক ব্যাখ্যা প্রদর্শিত হবে।'
-    },
-    {
-      q: 'শিক্ষক বা অ্যাডমিন কীভাবে নতুন কুইজ যুক্ত করবেন?',
-      a: 'ওয়েবসাইটের অ্যাডমিন প্যানেলে ইউজারনেম এবং গোপন সিকিউরিটি পিন দিয়ে নিরাপদে প্রবেশ করে যেকোনো নতুন প্রশ্ন বা বিষয় যুক্ত করা যায়।'
     }
+  
   ];
 
   return (
@@ -153,7 +150,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStartQuiz }) => {
         <div className="space-y-2 border-b border-slate-100 pb-4">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 flex items-center gap-2.5">
             <GraduationCap className="w-8 h-8 text-teal-700 shrink-0" />
-            <span>এই ওয়েবসাইটে কি কাজ হয়?</span>
+            <span>ওয়েবসাইট সম্পর্কে ব্যাখ্যা</span>
           </h2>
           <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
             <strong>সফল wb</strong> হলো পশ্চিমবঙ্গের ছাত্র-ছাত্রীদের পড়াশোনাকে আরও প্রাঞ্জল ও আকর্ষণীয় করে তোলার একটি সম্পূর্ণ ডিজিটাল অনলাইন মক টেস্ট মাধ্যম। এখানে আপনারা আপনাদের ক্লাসের পাঠ্যবইয়ের অধ্যায় অনুযায়ী প্রশ্নের উত্তর অনুশীলন করে নিজেদের পরীক্ষার জন্য তৈরি করতে পারবেন।
@@ -285,7 +282,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStartQuiz }) => {
         </div>
       </motion.div>
 
-      {/* 5. ADMIN / TEACHER NOTICE */}
+      {/* 5. ADMIN / TEACHER NOTICE 
       <motion.div
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
@@ -304,7 +301,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStartQuiz }) => {
           </div>
         </div>
       </motion.div>
-
+*/}
       {/* 6. FAQ ACCORDION SECTION */}
       <motion.div
         initial={{ opacity: 0, y: 15 }}
