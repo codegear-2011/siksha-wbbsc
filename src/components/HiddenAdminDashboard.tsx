@@ -279,35 +279,35 @@ export const HiddenAdminDashboard: React.FC<HiddenAdminDashboardProps> = ({
             <div className="w-14 h-14 bg-amber-500/20 text-amber-400 rounded-2xl flex items-center justify-center mx-auto border border-amber-500/30">
               <Lock className="w-7 h-7" />
             </div>
-            <h2 className="text-2xl font-bold text-white">প্রশাসন প্যানেল লগইন</h2>
+            <h2 className="text-2xl font-bold text-white">Admin Panel Login</h2>
             <p className="text-slate-400 text-sm">
-              সিক্রেট অ্যাডমিন ড্যাশবোর্ডে প্রবেশ করতে ইউজারনেম এবং পিন দিন
+              Input Username And Password
             </p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
-                অ্যাডমিন ইউজারনেম (Username):
+               Username:
               </label>
               <input
                 type="text"
                 value={usernameInput}
                 onChange={e => setUsernameInput(e.target.value)}
-                placeholder="ডিফল্ট ইউজারনেম: admin"
+                placeholder="Enter Your Username"
                 className="w-full bg-slate-900 border border-slate-700 rounded-xl p-3.5 text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 font-medium text-base"
               />
             </div>
 
             <div>
               <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
-                সিকিউরিটি পিন / পাসওয়ার্ড (PIN):
+                Password:
               </label>
               <input
                 type="password"
                 value={pinInput}
                 onChange={e => setPinInput(e.target.value)}
-                placeholder="ডিফল্ট পিন: admin123"
+                placeholder="Enter Your Password:"
                 className="w-full bg-slate-900 border border-slate-700 rounded-xl p-3.5 text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 font-mono text-base"
               />
             </div>
@@ -322,14 +322,14 @@ export const HiddenAdminDashboard: React.FC<HiddenAdminDashboardProps> = ({
               type="submit"
               className="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3.5 rounded-xl shadow-lg transition text-base cursor-pointer"
             >
-              ড্যাশবোর্ডে প্রবেশ করুন
+              LogIn
             </button>
           </form>
-
+    {/*
           <div className="bg-slate-900/80 p-3 rounded-xl border border-slate-700/60 text-xs text-slate-400 text-center space-y-1">
             <div>ডিফল্ট ইউজারনেম: <code className="bg-slate-800 px-1.5 py-0.5 rounded text-amber-400 font-bold">admin</code></div>
             <div>ডিফল্ট সিকিউরিটি পিন: <code className="bg-slate-800 px-1.5 py-0.5 rounded text-amber-400 font-bold">admin123</code></div>
-          </div>
+          </div>*/}
         </motion.div>
       </div>
     );
@@ -347,10 +347,10 @@ export const HiddenAdminDashboard: React.FC<HiddenAdminDashboardProps> = ({
             </div>
             <div>
               <h1 className="text-xl sm:text-2xl font-extrabold text-white flex items-center gap-2">
-                গোপন কুইজ ব্যবস্থাপনা ড্যাশবোর্ড (Admin Panel)
+                Admin Dashboard
               </h1>
               <p className="text-slate-400 text-xs sm:text-sm">
-                নতুন কুইজ তৈরি, শ্রেণি/বিষয় পরিচালনা ও ডাটাবেস আপডেট সেন্টার
+                
               </p>
             </div>
           </div>
@@ -361,7 +361,7 @@ export const HiddenAdminDashboard: React.FC<HiddenAdminDashboardProps> = ({
               className="bg-slate-800 hover:bg-slate-700 text-slate-200 px-4 py-2 rounded-xl text-sm font-semibold transition cursor-pointer flex items-center gap-1.5 border border-slate-700"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>মূল অ্যাপে ফিরুন</span>
+              <span>Return to the main app.</span>
             </button>
 
             <button
@@ -369,7 +369,7 @@ export const HiddenAdminDashboard: React.FC<HiddenAdminDashboardProps> = ({
               className="bg-rose-950/80 hover:bg-rose-900 text-rose-300 px-3.5 py-2 rounded-xl text-sm font-semibold transition cursor-pointer border border-rose-800 flex items-center gap-1.5"
             >
               <LogOut className="w-4 h-4" />
-              <span>লগআউট</span>
+              <span>LogOut</span>
             </button>
           </div>
         </div>
@@ -397,7 +397,7 @@ export const HiddenAdminDashboard: React.FC<HiddenAdminDashboardProps> = ({
             }`}
           >
             <PlusCircle className="w-4 h-4" />
-            <span>{editingQuizId ? 'কুইজ এডিট করুন' : 'নতুন কুইজ তৈরি করুন'}</span>
+            <span>{editingQuizId ? 'Edit quiz' : 'Create new quiz'}</span>
           </button>
 
           <button
@@ -409,7 +409,7 @@ export const HiddenAdminDashboard: React.FC<HiddenAdminDashboardProps> = ({
             }`}
           >
             <Edit3 className="w-4 h-4" />
-            <span>কুইজ তালিকা ({quizzes.length})</span>
+            <span>Quiz List ({quizzes.length})</span>
           </button>
 
           <button
@@ -421,7 +421,7 @@ export const HiddenAdminDashboard: React.FC<HiddenAdminDashboardProps> = ({
             }`}
           >
             <Upload className="w-4 h-4" />
-            <span>JSON ইমপোর্ট / ব্যাকআপ</span>
+            <span>JSON Import/Backup</span>
           </button>
 
           <button
@@ -433,7 +433,7 @@ export const HiddenAdminDashboard: React.FC<HiddenAdminDashboardProps> = ({
             }`}
           >
             <Lock className="w-4 h-4" />
-            <span>অ্যাডমিন সিকিউরিটি পিন</span>
+            <span>Change admin PIN</span>
           </button>
 
           <button
@@ -448,7 +448,7 @@ export const HiddenAdminDashboard: React.FC<HiddenAdminDashboardProps> = ({
             }`}
           >
             <Trophy className="w-4 h-4 text-amber-400" />
-            <span>শিক্ষার্থীদের ফলাফল ({attempts.length})</span>
+            <span>Student results ({attempts.length})</span>
           </button>
         </div>
 
@@ -456,7 +456,7 @@ export const HiddenAdminDashboard: React.FC<HiddenAdminDashboardProps> = ({
         {activeTab === 'create' && (
           <form onSubmit={handleSaveQuiz} className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6 shadow-xl">
             <h2 className="text-xl font-bold text-amber-400 border-b border-slate-800 pb-3 flex items-center justify-between">
-              <span>{editingQuizId ? 'কুইজ আপডেট করুন' : 'নতুন কুইজ তৈরি ও প্রকাশ করুন'}</span>
+              <span>{editingQuizId ? 'Update quiz' : 'Create and publish a new quiz'}</span>
               {editingQuizId && (
                 <button
                   type="button"
@@ -466,7 +466,7 @@ export const HiddenAdminDashboard: React.FC<HiddenAdminDashboardProps> = ({
                   }}
                   className="text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-lg hover:bg-slate-700"
                 >
-                  নতুন ফর্ম রিসেট
+                  New form reset 
                 </button>
               )}
             </h2>
@@ -474,7 +474,7 @@ export const HiddenAdminDashboard: React.FC<HiddenAdminDashboardProps> = ({
             {/* Class & Subject Selector */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
-                <label className="block text-xs font-bold text-slate-400 uppercase mb-2">শ্রেণি নির্বাচন করুন:</label>
+                <label className="block text-xs font-bold text-slate-400 uppercase mb-2">Select Class:</label>
                 <select
                   value={selectedClassId}
                   onChange={e => setSelectedClassId(e.target.value)}
