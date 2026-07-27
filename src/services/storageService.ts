@@ -2,13 +2,13 @@ import { ClassItem, Subject, Quiz, QuizResultData } from '../types';
 import { INITIAL_CLASSES, INITIAL_SUBJECTS, INITIAL_QUIZZES } from '../data/initialData';
 
 const STORAGE_KEYS = {
-  CLASSES: 'siksha_wb_classes_v1',
-  SUBJECTS: 'siksha_wb_subjects_v1',
-  QUIZZES: 'siksha_wb_quizzes_v1',
-  ATTEMPTS: 'siksha_wb_attempts_v1',
-  ADMIN_AUTH: 'siksha_wb_admin_auth_v1',
-  ADMIN_USER: 'siksha_wb_admin_user_v1',
-  ADMIN_PASS: 'siksha_wb_admin_pass_v1'
+  CLASSES: 'safal_wb_classes_v1',
+  SUBJECTS: 'safal_wb_subjects_v1',
+  QUIZZES: 'safal_wb_quizzes_v1',
+  ATTEMPTS: 'safal_wb_attempts_v1',
+  ADMIN_AUTH: 'safal_wb_admin_auth_v1',
+  ADMIN_USER: 'safal_wb_admin_user_v1',
+  ADMIN_PASS: 'safal_wb_admin_pass_v1'
 };
 
 export const storageService = {
@@ -117,15 +117,74 @@ export const storageService = {
   },
 
   // Attempts
-  saveAttempt(result: QuizResultData): void {
+  saveAttempt(result: QuizResultData): QuizResultData {
     try {
       const data = localStorage.getItem(STORAGE_KEYS.ATTEMPTS);
       const attempts: QuizResultData[] = data ? JSON.parse(data) : [];
-      attempts.unshift(result);
-      localStorage.setItem(STORAGE_KEYS.ATTEMPTS, JSON.stringify(attempts.slice(0, 50)));
+      const enhancedResult: QuizResultData = {
+        ...result,
+        id: result.id || `att-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+        timestamp: result.timestamp || new Date().toISOString(),
+        percentage: result.totalQuestions > 0 ? Math.round((result.correctCount / result.totalQuestions) * 100) : 0
+      };
+      attempts.unshift(enhancedResult);
+      localStorage.setItem(STORAGE_KEYS.ATTEMPTS, JSON.stringify(attempts.slice(0, 200)));
+      return enhancedResult;
     } catch (e) {
       console.error('Error saving attempt', e);
+      return result;
     }
+  },
+
+  saveOrUpdateStudentScore(result: QuizResultData, studentName: string): QuizResultData {
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS.ATTEMPTS);
+      const attempts: QuizResultData[] = data ? JSON.parse(data) : [];
+      
+      const targetId = result.id;
+      let foundIndex = -1;
+      if (targetId) {
+        foundIndex = attempts.findIndex(a => a.id === targetId);
+      } else {
+        foundIndex = attempts.findIndex(a => a.quizId === result.quizId && a.score === result.score && !a.studentName);
+      }
+
+      const updatedResult: QuizResultData = {
+        ...result,
+        id: targetId || `att-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+        studentName: studentName.trim(),
+        timestamp: result.timestamp || new Date().toISOString(),
+        percentage: result.totalQuestions > 0 ? Math.round((result.correctCount / result.totalQuestions) * 100) : 0
+      };
+
+      if (foundIndex >= 0) {
+        attempts[foundIndex] = updatedResult;
+      } else {
+        attempts.unshift(updatedResult);
+      }
+
+      localStorage.setItem(STORAGE_KEYS.ATTEMPTS, JSON.stringify(attempts.slice(0, 200)));
+      return updatedResult;
+    } catch (e) {
+      console.error('Error saving student score:', e);
+      return result;
+    }
+  },
+
+  deleteAttempt(attemptId: string): QuizResultData[] {
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS.ATTEMPTS);
+      const attempts: QuizResultData[] = data ? JSON.parse(data) : [];
+      const updated = attempts.filter(a => a.id !== attemptId);
+      localStorage.setItem(STORAGE_KEYS.ATTEMPTS, JSON.stringify(updated));
+      return updated;
+    } catch {
+      return [];
+    }
+  },
+
+  clearAllAttempts(): void {
+    localStorage.removeItem(STORAGE_KEYS.ATTEMPTS);
   },
 
   getAttempts(): QuizResultData[] {

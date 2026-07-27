@@ -54,7 +54,7 @@ export const SubjectChapterSelector: React.FC<SubjectChapterSelectorProps> = ({
             বিষয় ও অধ্যায় নির্বাচন
           </h1>
           <p className="text-amber-400 font-medium text-sm mt-1">
-            siksha wb মক টেস্ট
+            সফল wb মক টেস্ট
           </p>
         </div>
       </motion.div>

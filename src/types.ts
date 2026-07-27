@@ -45,6 +45,7 @@ export interface UserAnswer {
 }
 
 export interface QuizResultData {
+  id?: string;
   quizId: string;
   quizTitle: string;
   className: string;
@@ -56,4 +57,7 @@ export interface QuizResultData {
   score: number;
   timeSpentSeconds: number;
   answers: Record<number, number>; // questionIndex -> selectedOption
+  studentName?: string;
+  timestamp?: string;
+  percentage?: number;
 }

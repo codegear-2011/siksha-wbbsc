@@ -135,7 +135,7 @@ export const QuizPlay: React.FC<QuizPlayProps> = ({ quiz, onBack, onFinishQuiz }
             {quiz.className}
           </p>
           <p className="text-amber-400 font-semibold text-xs sm:text-sm tracking-wide">
-            siksha wb মক টেস্ট
+            সফল wb মক টেস্ট
           </p>
         </div>
       </motion.div>

@@ -32,7 +32,7 @@ export const ClassSelector: React.FC<ClassSelectorProps> = ({ classes, onSelectC
             ক্লাস নির্বাচন করো
           </h1>
           <p className="text-amber-400 font-semibold text-lg sm:text-xl mt-3 tracking-wide flex items-center justify-center gap-2">
-            siksha wb মক টেস্ট
+            সফল wb মক টেস্ট
           </p>
         </div>
         {/* Yellow Bottom Stripe matching screenshot 1 */}

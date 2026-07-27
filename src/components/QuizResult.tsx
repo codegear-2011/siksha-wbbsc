@@ -2,6 +2,7 @@ import React from 'react';
 import { QuizResultData, Quiz } from '../types';
 import { Trophy, CheckCircle2, XCircle, RotateCcw, Home, Check, Info } from 'lucide-react';
 import { motion } from 'motion/react';
+import { CertificateGenerator } from './CertificateGenerator';
 
 interface QuizResultProps {
   result: QuizResultData;
@@ -88,6 +89,13 @@ export const QuizResult: React.FC<QuizResultProps> = ({ result, quiz, onRetry, o
           <span>মূল পাতা</span>
         </button>
       </div>
+
+      {/* PDF Certificate Download Section */}
+      <CertificateGenerator
+        result={result}
+        percentage={percentage}
+        gradeMessage={gradeMessage}
+      />
 
       {/* Question Answer Review */}
       <div className="bg-white rounded-[24px] p-6 shadow-sm border border-slate-200 space-y-5">

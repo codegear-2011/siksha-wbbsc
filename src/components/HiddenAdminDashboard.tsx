@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { ClassItem, Subject, Quiz, Question } from '../types';
+import { ClassItem, Subject, Quiz, Question, QuizResultData } from '../types';
 import { storageService } from '../services/storageService';
-import { Plus, Trash2, Edit3, Save, Lock, LogOut, Download, Upload, RefreshCw, CheckCircle, PlusCircle, ArrowLeft } from 'lucide-react';
+import { Plus, Trash2, Edit3, Save, Lock, LogOut, Download, Upload, RefreshCw, CheckCircle, PlusCircle, ArrowLeft, Trophy, Award } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface HiddenAdminDashboardProps {
@@ -24,7 +24,8 @@ export const HiddenAdminDashboard: React.FC<HiddenAdminDashboardProps> = ({
   const [pinInput, setPinInput] = useState<string>('');
   const [authError, setAuthError] = useState<string>('');
 
-  const [activeTab, setActiveTab] = useState<'create' | 'list' | 'settings' | 'json'>('create');
+  const [activeTab, setActiveTab] = useState<'create' | 'list' | 'settings' | 'json' | 'results'>('create');
+  const [attempts, setAttempts] = useState<QuizResultData[]>(storageService.getAttempts());
 
   // Change Admin Credentials state
   const [newUsername, setNewUsername] = useState<string>('');
@@ -228,7 +229,7 @@ export const HiddenAdminDashboard: React.FC<HiddenAdminDashboardProps> = ({
     const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(quizzes, null, 2));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute('href', dataStr);
-    downloadAnchor.setAttribute('download', `siksha_wb_quizzes_${Date.now()}.json`);
+    downloadAnchor.setAttribute('download', `safal_wb_quizzes_${Date.now()}.json`);
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
@@ -240,6 +241,21 @@ export const HiddenAdminDashboard: React.FC<HiddenAdminDashboardProps> = ({
       storageService.resetToDefaultData();
       onRefreshData();
       alert('ডাটাবেস সফলভাবে রিসেট করা হয়েছে।');
+    }
+  };
+
+  // Student Attempts Handlers
+  const handleDeleteAttempt = (attemptId: string) => {
+    if (confirm('আপনি কি এই শিক্ষার্থীর স্কোর রেকর্ডটি মুছে ফেলতে চান?')) {
+      const updated = storageService.deleteAttempt(attemptId);
+      setAttempts(updated);
+    }
+  };
+
+  const handleClearAllAttempts = () => {
+    if (confirm('আপনি কি ডাটাবেজের সকল শিক্ষার্থীর ফলাফল মুছে ফেলতে নিশ্চিত?')) {
+      storageService.clearAllAttempts();
+      setAttempts([]);
     }
   };
 
@@ -418,6 +434,21 @@ export const HiddenAdminDashboard: React.FC<HiddenAdminDashboardProps> = ({
           >
             <Lock className="w-4 h-4" />
             <span>অ্যাডমিন সিকিউরিটি পিন</span>
+          </button>
+
+          <button
+            onClick={() => {
+              setActiveTab('results');
+              setAttempts(storageService.getAttempts());
+            }}
+            className={`px-4 py-2.5 rounded-xl font-bold text-sm whitespace-nowrap transition cursor-pointer flex items-center gap-2 ${
+              activeTab === 'results'
+                ? 'bg-amber-500 text-slate-950'
+                : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+            }`}
+          >
+            <Trophy className="w-4 h-4 text-amber-400" />
+            <span>শিক্ষার্থীদের ফলাফল ({attempts.length})</span>
           </button>
         </div>
 
@@ -768,6 +799,113 @@ export const HiddenAdminDashboard: React.FC<HiddenAdminDashboardProps> = ({
                 <span>পরিবর্তন সংরক্ষণ করুন</span>
               </button>
             </form>
+          </div>
+        )}
+
+        {/* TAB 5: STUDENT RESULTS DATABASE */}
+        {activeTab === 'results' && (
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6 shadow-xl">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+              <div>
+                <h2 className="text-xl font-bold text-amber-400 flex items-center gap-2">
+                  <Trophy className="w-6 h-6 text-amber-400" />
+                  <span>শিক্ষার্থীদের মক টেস্টের ফলাফল ডাটাবেজ (Student Scores)</span>
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-400 mt-1">
+                  যেসব শিক্ষার্থী সনদের জন্য নাম বা কুইজ জমা দিয়েছে তাদের লাইভ স্কোর কার্ড
+                </p>
+              </div>
+              {attempts.length > 0 && (
+                <button
+                  onClick={handleClearAllAttempts}
+                  className="bg-rose-950/80 hover:bg-rose-900 text-rose-300 border border-rose-800 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer shrink-0"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  <span>সকল ফলাফল মুছে ফেলুন</span>
+                </button>
+              )}
+            </div>
+
+            {attempts.length === 0 ? (
+              <div className="text-center py-12 bg-slate-950/60 rounded-2xl border border-slate-800 space-y-3">
+                <div className="w-16 h-16 bg-slate-900 text-slate-500 rounded-full flex items-center justify-center mx-auto border border-slate-800">
+                  <Award className="w-8 h-8" />
+                </div>
+                <p className="text-slate-400 font-medium text-sm">
+                  এখনও কোনো শিক্ষার্থীর ফলাফল ডাটাবেজে জমা হয়নি!
+                </p>
+                <p className="text-xs text-slate-500 max-w-md mx-auto">
+                  শিক্ষার্থীরা কুইজ শেষ করে সনদের জন্য নাম দিলে বা স্কোর জমা দিলে সঙ্গে সঙ্গে এখানে আপডেট হবে।
+                </p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950">
+                <table className="w-full text-left border-collapse text-sm">
+                  <thead>
+                    <tr className="bg-slate-900/90 text-slate-400 border-b border-slate-800 text-xs uppercase font-extrabold tracking-wider">
+                      <th className="p-3.5">শিক্ষার্থীর নাম</th>
+                      <th className="p-3.5">শ্রেণি ও বিষয়</th>
+                      <th className="p-3.5">কুইজ / অধ্যায়</th>
+                      <th className="p-3.5">সঠিক / মোট</th>
+                      <th className="p-3.5">প্রাপ্ত নম্বর ও শতকরা</th>
+                      <th className="p-3.5">তারিখ ও সময়</th>
+                      <th className="p-3.5 text-right">অ্যাকশন</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-800/60 text-slate-200">
+                    {attempts.map((att, idx) => (
+                      <tr key={att.id || idx} className="hover:bg-slate-900/50 transition">
+                        <td className="p-3.5 font-bold text-amber-300">
+                          {att.studentName ? (
+                            <span className="flex items-center gap-1.5">
+                              <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block"></span>
+                              {att.studentName}
+                            </span>
+                          ) : (
+                            <span className="text-slate-500 italic">নাম দেওয়া হয়নি</span>
+                          )}
+                        </td>
+                        <td className="p-3.5 text-xs text-slate-300">
+                          <div className="font-semibold">{att.className}</div>
+                          <div className="text-slate-400">{att.subjectName}</div>
+                        </td>
+                        <td className="p-3.5 text-xs font-semibold text-white max-w-[200px] truncate" title={att.quizTitle}>
+                          {att.quizTitle}
+                        </td>
+                        <td className="p-3.5 text-xs font-bold">
+                          <span className="text-emerald-400">{att.correctCount}টি সঠিক</span> / <span className="text-slate-400">{att.totalQuestions}টি</span>
+                        </td>
+                        <td className="p-3.5">
+                          <div className="font-extrabold text-white text-sm">
+                            {att.score} নম্বর
+                          </div>
+                          <div className="text-xs text-amber-400 font-bold">
+                            {att.percentage !== undefined ? `${att.percentage}%` : `${Math.round((att.correctCount / att.totalQuestions) * 100)}%`}
+                          </div>
+                        </td>
+                        <td className="p-3.5 text-xs text-slate-400 font-mono">
+                          {att.timestamp ? new Date(att.timestamp).toLocaleString('bn-IN', {
+                            dateStyle: 'short',
+                            timeStyle: 'short'
+                          }) : 'সাম্প্রতিক'}
+                        </td>
+                        <td className="p-3.5 text-right">
+                          {att.id && (
+                            <button
+                              onClick={() => handleDeleteAttempt(att.id!)}
+                              className="text-rose-400 hover:text-rose-300 hover:bg-rose-950/60 p-1.5 rounded-lg transition"
+                              title="রেকর্ড মুছে ফেলুন"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         )}
       </div>

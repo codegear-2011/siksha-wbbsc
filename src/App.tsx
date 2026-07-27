@@ -80,8 +80,8 @@ export default function App() {
 
   // Finish Quiz Handler
   const handleFinishQuiz = (result: QuizResultData) => {
-    storageService.saveAttempt(result);
-    setQuizResult(result);
+    const saved = storageService.saveAttempt(result);
+    setQuizResult(saved);
     setCurrentView('quiz-result');
   };
 

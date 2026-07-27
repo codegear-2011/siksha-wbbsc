@@ -50,7 +50,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStartQuiz }) => {
 
   const faqs = [
     {
-      q: 'siksha wb প্ল্যাটফর্মে কি সব মক টেস্ট বিনামূল্যে?',
+      q: 'সফল wb প্ল্যাটফর্মে কি সব মক টেস্ট বিনামূল্যে?',
       a: 'হ্যাঁ! এটি সম্পূর্ণ বিনামূল্যে শিক্ষার্থীদের অনলাইন অনুশীলনের জন্য তৈরি করা হয়েছে। কোনো প্রকার ফি বা নিবন্ধনের প্রয়োজন নেই।'
     },
     {
@@ -88,7 +88,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStartQuiz }) => {
 
           {/* Main Title */}
           <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
-            siksha wb মক টেস্ট
+            সফল wb মক টেস্ট
           </h1>
 
           {/* Subtitle */}
@@ -156,7 +156,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStartQuiz }) => {
             <span>এই ওয়েবসাইটে কি কাজ হয়?</span>
           </h2>
           <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
-            <strong>siksha wb</strong> হলো পশ্চিমবঙ্গের ছাত্র-ছাত্রীদের পড়াশোনাকে আরও প্রাঞ্জল ও আকর্ষণীয় করে তোলার একটি সম্পূর্ণ ডিজিটাল অনলাইন মক টেস্ট মাধ্যম। এখানে আপনারা আপনাদের ক্লাসের পাঠ্যবইয়ের অধ্যায় অনুযায়ী প্রশ্নের উত্তর অনুশীলন করে নিজেদের পরীক্ষার জন্য তৈরি করতে পারবেন।
+            <strong>সফল wb</strong> হলো পশ্চিমবঙ্গের ছাত্র-ছাত্রীদের পড়াশোনাকে আরও প্রাঞ্জল ও আকর্ষণীয় করে তোলার একটি সম্পূর্ণ ডিজিটাল অনলাইন মক টেস্ট মাধ্যম। এখানে আপনারা আপনাদের ক্লাসের পাঠ্যবইয়ের অধ্যায় অনুযায়ী প্রশ্নের উত্তর অনুশীলন করে নিজেদের পরীক্ষার জন্য তৈরি করতে পারবেন।
           </p>
         </div>
 
@@ -358,7 +358,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStartQuiz }) => {
 
       {/* FOOTER */}
       <div className="text-center text-slate-400 text-xs sm:text-sm font-medium pt-2 pb-6 space-y-1">
-        <div>© siksha wb মক টেস্ট পোর্টাল • সর্বস্বত্ব সংরক্ষিত</div>
+        <div>© সফল wb মক টেস্ট পোর্টাল • সর্বস্বত্ব সংরক্ষিত</div>
         <div className="text-slate-400 text-2xs">পশ্চিমবঙ্গ শিক্ষার্থী সহায়িকা ডিজিটাল প্ল্যাটফর্ম</div>
       </div>
     </div>
